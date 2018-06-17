@@ -4,15 +4,21 @@ pipeline {
     stages {
         stage('Detect changes') {
             steps {
-               // Git committer email
-                GIT_COMMIT_EMAIL = sh (script: 'uname',returnStdout: true)
-                echo "Git committer email: ${GIT_COMMIT_EMAIL}"
+                echo 'Detect changes'
+                script {
+                    changed_components = sh (
+                        script: "git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS=\"/\"} {print \$1}' | uniq",
+                        returnStatus: true
+                    ) == 0
+                }
+                echo "changed_components flag: ${changed_components}"
+
             }
         }
         stage('Build') {
             steps {
                 echo 'Building..'
-                echo "${GIT_COMMIT_EMAIL}"
+                echo "${changed_components}"
             }
         }
         stage('Test') {
