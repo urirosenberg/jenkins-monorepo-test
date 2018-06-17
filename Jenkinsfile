@@ -5,7 +5,7 @@ pipeline {
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
-                sh 'build/detect-changes.sh'
+                sh 'bash build/detect-changes.sh'
             }
         }
         stage('Build') {
