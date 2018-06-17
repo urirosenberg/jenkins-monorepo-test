@@ -4,6 +4,7 @@ export IGNORE_FILES=$(ls -p | grep -v /)
 detect_changed_folders() {
 	echo "detecting changes for this build"
 	folders=`git diff --name-only $SHIPPABLE_COMMIT_RANGE | sort -u | awk 'BEGIN {FS="/"} {print $1}' | uniq`
+ 	echo "changes in $folders"
  	export changed_components=$folders
 }
 
