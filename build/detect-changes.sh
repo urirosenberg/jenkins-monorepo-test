@@ -3,7 +3,7 @@ export IGNORE_FILES=$(ls -p | grep -v /)
 
 detect_changed_folders() {
 	echo "detecting changes for this build"
-	folders=`git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT`
+	folders=`git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS="/"} {print $1}' | uniq`
  	echo "changes in $folders"
  	export changed_components=$folders
 }
