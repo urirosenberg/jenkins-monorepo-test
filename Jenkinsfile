@@ -10,7 +10,7 @@ pipeline {
                         script: "git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS=\"/\"} {print \$1}' | uniq",
                         returnStdout: true).trim()
                 }
-                echo "changed_components flag: ${changed_components}"
+                echo "Changed_components: ${changed_components}"
 
             }
         }
