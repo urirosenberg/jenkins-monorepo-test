@@ -18,7 +18,10 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        for(int i=0; i < changed_components.size(); i++) {
+          stage(build_list[i]){
+               build job: build_list[i], propagate: false
+          }        stage('Build') {
             steps {
                 echo 'Building..'
                 echo "${changed_components}"
