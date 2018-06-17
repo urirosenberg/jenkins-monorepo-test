@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Detect changes'
                 sh '''
-                    changed_components=`git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS="/"} {print $1}' | uniq`
+                    export changed_components=`git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS="/"} {print $1}' | uniq`
                 '''
             }
         }
