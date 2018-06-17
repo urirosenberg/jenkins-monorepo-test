@@ -5,7 +5,7 @@ pipeline {
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
-                sh 'bash build/detect-changes.sh'
+                sh 'changed_components=git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS="/"} {print $1}' | uniq'
             }
         }
         stage('Build') {
