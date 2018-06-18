@@ -5,7 +5,6 @@ pipeline {
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
-
                 script {
                     IGNORE_FILES = sh (
                         script: "ls -p | grep -v /",
@@ -31,14 +30,20 @@ pipeline {
         stage ('Main Build Stage') {
             steps {
                 script {
-                    for(compName in changed_components){
-                        if (!(compName in IGNORE_FILES)) {
-                            stage ('Stage ${compName}') {
-                                sh 'echo Stage ${compName}'
+                        if ('sub-a' in changed_components){
+                            stage ('Stage build sub-a') {
+                                sh 'echo Stage sub-a'
+                            }
+                        }
+                        else if ('sub-b' in changed_components){
+                            stage ('Stage build sub-b') {
+                                sh 'echo Stage sub-b'
                             }
                         }
                         else{
-                            sh 'echo Stage ${compName}'
+                            stage ('Stage Build All') {
+                                sh 'echo Stage build all'
+                            }
                         }
                     }
                 }
