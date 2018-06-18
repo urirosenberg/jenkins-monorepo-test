@@ -25,16 +25,12 @@ pipeline {
                 script {
                         if ('sub-a' in changed_components){
                             stage ('Stage build sub-a') {
-                              steps{
                                     echo 'doing sub-a stuff'
-                                }
                             }
                         }
                         else if ('sub-b' in changed_components){
                             stage ('Stage build sub-b') {
-                                steps{
                                     echo 'doing sub-b stuff'
-                                }
                             }
                         }
                         else{
