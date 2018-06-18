@@ -21,9 +21,9 @@ pipeline {
                         returnStdout: true).trim()
                 }
                 script {
-                    prinln "*** Changed_components before: ${changed_components}"
+                    println "*** Changed_components before: ${changed_components}"
                     changed_components=changed_components.split("/n")
-                    prinln "*** Changed_components after: ${changed_components}"
+                    println "*** Changed_components after: ${changed_components}"
                 }
                 echo "Changed_components: ${changed_components}"
             }
