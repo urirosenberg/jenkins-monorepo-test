@@ -14,28 +14,13 @@ pipeline {
                     changed_components=changed_components.split("/n")
                 }
                 echo "Changed_components: ${changed_components}"
-
             }
         }
 
-        for(int i=0; i < changed_components.size(); i++) {
-          stage(build_list[i]){
-               build job: build_list[i], propagate: false
-          }        stage('Build') {
-            steps {
-                echo 'Building..'
-                echo "${changed_components}"
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
+    for(int i=0; i < changed_components.size(); i++) {
+        stage('Build'+ changed_components[i]){
+            echo 'Building ${changed_components[i]}'
+          }
         }
     }
 }
