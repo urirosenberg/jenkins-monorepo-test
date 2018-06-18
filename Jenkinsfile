@@ -5,14 +5,14 @@ pipeline {
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
-                script {
-                    IGNORE_FILES = sh (
-                        script: "ls -p | grep -v /",
-                        returnStdout: true).trim()
-                }
-                script {
-                    IGNORE_FILES=IGNORE_FILES.split("/n")
-                }
+                // script {
+                //     IGNORE_FILES = sh (
+                //         script: "ls -p | grep -v /",
+                //         returnStdout: true).trim()
+                // }
+                // script {
+                //     IGNORE_FILES=IGNORE_FILES.split("/n")
+                // }
 
                 //detect changed directories
                 script {
