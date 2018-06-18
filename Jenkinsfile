@@ -5,6 +5,17 @@ pipeline {
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
+
+                script {
+                    IGNORE_FILES = sh (
+                        script: "ls -p | grep -v /",
+                        returnStdout: true).trim()
+                }
+                script {
+                    IGNORE_FILES=IGNORE_FILES.split("/n")
+                }
+
+                //detect changed directories
                 script {
                     changed_components = sh (
                         script: "git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | awk 'BEGIN {FS=\"/\"} {print \$1}' | uniq",
@@ -17,11 +28,27 @@ pipeline {
             }
         }
 
-        for (int i=0; i< 2; ++i) {  
-            stage("Stage #"+i){
-                steps{
-                    print 'Hello, world $i!'
+        stage ('Main Build Stage') {
+            steps {
+                script {
+                    for(compName in changed_components){
+                        if (!(compName in IGNORE_FILES)) {
+                            stage ('Stage ${compName}') {
+                                sh 'echo Stage compName'
+                            }
+                        }
+                    }
                 }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
