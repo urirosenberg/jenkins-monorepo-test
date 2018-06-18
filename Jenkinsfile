@@ -5,15 +5,6 @@ pipeline {
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
-                // script {
-                //     IGNORE_FILES = sh (
-                //         script: "ls -p | grep -v /",
-                //         returnStdout: true).trim()
-                // }
-                // script {
-                //     IGNORE_FILES=IGNORE_FILES.split("/n")
-                // }
-
                 //detect changed directories
                 script {
                     changed_components = sh (
@@ -22,7 +13,7 @@ pipeline {
                 }
                 script {
                     println "*** Changed_components before: ${changed_components}"
-                    changed_components=changed_components.split("/n")
+                    changed_components=changed_components.split("\n")
                     println "*** Changed_components after: ${changed_components}"
                 }
                 echo "Changed_components: ${changed_components}"
