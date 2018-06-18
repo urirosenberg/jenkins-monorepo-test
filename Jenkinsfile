@@ -17,10 +17,9 @@ pipeline {
             }
         }
 
-    for(int i=0; i < changed_components.size(); i++) {
-        stage('Build'+ changed_components[i]){
-            echo 'Building ${changed_components[i]}'
-          }
+        for (int i=0; i< 2; ++i) {  
+            stage "Stage #"+i
+            print 'Hello, world $i!'
         }
     }
 }
