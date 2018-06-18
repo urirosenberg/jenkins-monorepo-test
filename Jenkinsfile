@@ -34,8 +34,11 @@ pipeline {
                     for(compName in changed_components){
                         if (!(compName in IGNORE_FILES)) {
                             stage ('Stage ${compName}') {
-                                sh 'echo Stage compName'
+                                sh 'echo Stage ${compName}'
                             }
+                        }
+                        else{
+                            sh 'echo Stage ${compName}'
                         }
                     }
                 }
