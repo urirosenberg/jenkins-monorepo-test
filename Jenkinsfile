@@ -2,6 +2,17 @@ pipeline {
     agent any
 
     stages {
+        stage('Set build params') {
+            steps {
+                script {
+                    ANALYTICS_PATH='/Users/urir/workspace/haystack/haystack-analytics'
+                }
+                script {
+                    def cause = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)
+                    println "CAUSE ${cause}"
+                }
+            }
+        }
         stage('Detect changes') {
             steps {
                 echo 'Detect changes'
@@ -12,9 +23,7 @@ pipeline {
                         returnStdout: true).trim()
                 }
                 script {
-                    println "*** Changed_components before: ${changed_components}"
                     changed_components=changed_components.split("\n")
-                    println "*** Changed_components after: ${changed_components}"
                 }
                 echo "Changed_components: ${changed_components}"
             }
@@ -23,19 +32,24 @@ pipeline {
         stage ('Main Build Stage') {
             steps {
                 script {
-                        if ('sub-a' in changed_components){
-                            stage ('Stage build sub-a') {
+                        if ('elasticsearch' in changed_components){
+                            stage ('Stage build elasticsearch') {
                                     echo 'doing sub-a stuff'
                             }
                         }
-                        else if ('sub-b' in changed_components){
-                            stage ('Stage build sub-b') {
-                                    echo 'doing sub-b stuff'
+                        else if ('haystack-ingest' in changed_components){
+                            stage ('Stage build haystack-ingest') {
+                                echo 'doing sub-b stuff'
+                            }
+                        }
+                        else if ('haystack-dashboard' in changed_components){
+                            stage ('Stage build haystack-dashboard') {
+                                echo 'doing sub-b stuff'
                             }
                         }
                         else{
-                            stage ('Stage Build All') {
-                                sh 'echo Stage build all'
+                            stage ('No pipeline') {
+                                sh 'echo Changes not in analytics'
                             }
                         }
                     }
